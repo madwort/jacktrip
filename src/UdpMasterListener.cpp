@@ -4,7 +4,7 @@
   over the Internet
 
   Copyright (c) 2008 Juan-Pablo Caceres, Chris Chafe.
-  SoundWIRE group at CCRMA, Stanfdevelopment was moved back to GitHubord University.
+  SoundWIRE group at CCRMA, Stanford University.
 
   Permission is hereby granted, free of charge, to any person
   obtaining a copy of this software and associated documentation
