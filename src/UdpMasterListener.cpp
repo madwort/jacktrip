@@ -69,7 +69,7 @@ UdpMasterListener::UdpMasterListener(int server_port) :
     for (int i = 0; i<gMaxThreads; i++) {
         mJTWorkers->insert(i, NULL);
     }
-
+mThreadPool.setMaxThreadCount(5);
 qDebug() << "mThreadPool maxThreadCount =" << mThreadPool.maxThreadCount();
 
     //mJTWorkers = new JackTripWorker(this);
