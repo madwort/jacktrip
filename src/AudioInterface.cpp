@@ -448,8 +448,6 @@ void AudioInterface::fromSampleToBitConversion
     int8_t tmp_8;
     uint8_t tmp_u8; // unsigned to quantize the remainder in 24bits
     int16_t tmp_16;
-    sample_t maximum = 1.0;
-    sample_t minimum = -1.0;
     sample_t tmp_sample;
     sample_t tmp_sample16;
     sample_t tmp_sample8;
@@ -457,20 +455,23 @@ void AudioInterface::fromSampleToBitConversion
     {
     case BIT8 :
         // 8bit integer between -128 to 127
-        tmp_sample = floor( (*input) * 128.0 ); // 2^7 = 128.0
+        tmp_sample = floor( (*input) * 127.0 ); // 2^7 = 128.0
+        tmp_sample = std::max(std::min(tmp_sample, static_cast<sample_t>(127.0)), static_cast<sample_t>(-128.0));
         tmp_8 = static_cast<int8_t>(tmp_sample);
         std::memcpy(output, &tmp_8, 1); // 8bits = 1 bytes
         break;
     case BIT16 :
         // 16bit integer between -32768 to 32767
         // 2^15 = 32768.0
-        tmp_sample = floor( std::max(std::min((*input), maximum), minimum) * 32767.0 );
+        tmp_sample = floor( (*input) * 32768.0 ); // 2^15 = 32768.0
+        tmp_sample = std::max(std::min(tmp_sample, static_cast<sample_t>(32767.0)), static_cast<sample_t>(-32768.0));
         tmp_16 = static_cast<int16_t>(tmp_sample);
         std::memcpy(output, &tmp_16, 2); // 16bits = 2 bytes
         break;
     case BIT24 :
         // To convert to 24 bits, we first quantize the number to 16bit
         tmp_sample = (*input) * 32768.0; // 2^15 = 32768.0
+        tmp_sample = std::max(std::min(tmp_sample, static_cast<sample_t>(32767.0)),static_cast <sample_t>(-32768.0));
         tmp_sample16 = floor(tmp_sample);
         tmp_16 = static_cast<int16_t>(tmp_sample16);
 
